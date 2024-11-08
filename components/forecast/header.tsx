@@ -6,19 +6,19 @@ import { Theme } from "../../theme";
 
 const Header = () => {
   return (
-    <View className="flex-row justify-between items-center mt-6 mb-2">
+    <View className="flex-row justify-between items-center my-6">
       <Pressable hitSlop={20}>
         <Link href={"/"} asChild>
-          <Ionicons name="qr-code" size={28} color="black" />
+          <Ionicons name="chevron-back" size={24} color="black" />
         </Link>
       </Pressable>
       <View className="flex-row items-center">
-        <Ionicons name="location" size={28} color={Theme.orange} />
-        <Text className="text-2xl font-bold">Yangon</Text>
+        <Ionicons name="calendar-clear" size={24} color={Theme.purpleDark} />
+        <Text className="text-2xl font-bold ms-2">7 days</Text>
       </View>
       <Pressable hitSlop={20}>
-        <Link href={"/forecast"} asChild>
-          <Ionicons name="ellipsis-vertical-sharp" size={24} color="black" />
+        <Link href={"/"} asChild>
+          <Ionicons name="qr-code" size={28} color="black" />
         </Link>
       </Pressable>
     </View>

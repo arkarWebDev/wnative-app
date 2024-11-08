@@ -1,18 +1,18 @@
 import { StatusBar } from "expo-status-bar";
+import React from "react";
 import {
   ImageBackground,
   Platform,
   SafeAreaView,
-  StyleSheet,
   Text,
   View,
 } from "react-native";
-import Header from "../components/home/header";
-import InputBox from "../components/home/input-box";
-import Content from "../components/home/content";
+import Header from "../components/forecast/header";
+import Today from "../components/forecast/today";
 import Info from "../components/home/info";
+import WList from "../components/forecast/w-list";
 
-export default function Index() {
+const Forecast = () => {
   return (
     <SafeAreaView
       style={{ paddingTop: Platform.OS === "android" ? 24 : 0 }}
@@ -25,10 +25,11 @@ export default function Index() {
       >
         <View className="px-8">
           <Header />
-          <InputBox />
-          <Content />
+          <Today />
           <Info />
-          <Text className="text-center text-secondaryDark text-sm my-8">
+          <View className="my-2" />
+          <WList />
+          <Text className="text-center text-secondaryDark text-sm">
             Demo Weather App - CODE HUB{" "}
           </Text>
         </View>
@@ -36,4 +37,6 @@ export default function Index() {
       </ImageBackground>
     </SafeAreaView>
   );
-}
+};
+
+export default Forecast;
