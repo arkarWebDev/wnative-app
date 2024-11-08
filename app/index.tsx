@@ -1,22 +1,25 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  ImageBackground,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 export default function Index() {
   return (
-    <View style={styles.container}>
-      <View className="w-20 h-20 shadow bg-white">
-        <Text>1</Text>
-      </View>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 24 : 0 }}>
+      <ImageBackground
+        source={require("../assets/bg.jpg")}
+        className="w-full h-full"
+        blurRadius={6}
+      >
+        <View className="px-8">
+          <Text>Wnative</Text>
+        </View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
