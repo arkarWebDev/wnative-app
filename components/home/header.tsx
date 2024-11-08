@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <View className="flex-row justify-between items-center mt-6 mb-2">
       <Pressable hitSlop={20}>
-        <Link href={"/"} asChild>
+        <Link href={"/qrcode"} asChild>
           <Ionicons name="qr-code" size={28} color="black" />
         </Link>
       </Pressable>

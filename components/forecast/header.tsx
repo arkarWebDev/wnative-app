@@ -17,7 +17,7 @@ const Header = () => {
         <Text className="text-2xl font-bold ms-2">7 days</Text>
       </View>
       <Pressable hitSlop={20}>
-        <Link href={"/"} asChild>
+        <Link href={"/qrcode"} asChild>
           <Ionicons name="qr-code" size={28} color="black" />
         </Link>
       </Pressable>
