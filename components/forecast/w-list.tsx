@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import WItem from "./w-item";
 
 export type Weather = {
@@ -44,16 +44,28 @@ const DummyWeathers: Weather[] = [
     weather: "Sunny",
     temp: "26°",
   },
+  {
+    day: "San",
+    weather: "Sunny",
+    temp: "26°",
+  },
+  {
+    day: "Snu",
+    weather: "Sunny",
+    temp: "26°",
+  },
 ];
 
 const WList = () => {
   const [forecastData, setForecastData] = useState(DummyWeathers);
   return (
-    <FlatList
-      data={forecastData}
-      renderItem={({ item }) => <WItem w={item} />}
-      keyExtractor={(item) => item.day}
-    />
+    <View className="flex-1">
+      <FlatList
+        data={forecastData}
+        renderItem={({ item }) => <WItem w={item} />}
+        keyExtractor={(item) => item.day}
+      />
+    </View>
   );
 };
 
