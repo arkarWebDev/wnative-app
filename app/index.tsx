@@ -18,11 +18,30 @@ type Location = {
   latitude: number;
   longitude: number;
 };
+
+export type Weather = {
+  current_weather: {
+    temperature: number;
+    weathercode: 0;
+  };
+  daily: {
+    sunrise: string[];
+    sunset: string[];
+    temperature_2m_max: number[];
+    time: string[];
+    weathercode: number[];
+  };
+  latitude: number;
+  longtitude: number;
+};
+
 export default function Index() {
   const [location, setLocation] = useState<Location>({
     longitude: 96.1735,
     latitude: 16.8409,
   });
+  const [weatherInfo, setWeatherInfo] = useState<Weather>();
+  const [city, setCity] = useState<string>("Yangon");
 
   useEffect(() => {
     const getPermission = async () => {
@@ -33,14 +52,30 @@ export default function Index() {
       }
 
       const currentLocation = await Location.getCurrentPositionAsync({});
-      console.log(currentLocation);
       setLocation({
         latitude: currentLocation.coords.latitude,
         longitude: currentLocation.coords.longitude,
       });
     };
 
+    const getWeatherInfo = async () => {
+      const weather_api = `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&daily=weathercode,temperature_2m_max,sunrise,sunset,windspeed_10m_max&timezone=auto&current_weather=true`;
+      const response = await fetch(weather_api);
+      const response_data = await response.json();
+      setWeatherInfo(response_data);
+    };
+
+    const getReverseGeocode = async () => {
+      const reverseGeocodeResponse = await Location.reverseGeocodeAsync({
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
+      setCity(reverseGeocodeResponse[0].city!);
+    };
+
     getPermission();
+    getWeatherInfo();
+    getReverseGeocode();
   }, []);
 
   return (
@@ -54,9 +89,9 @@ export default function Index() {
         blurRadius={6}
       >
         <View className="px-8">
-          <Header />
+          <Header cityname={city} />
           <InputBox />
-          <Content />
+          {weatherInfo && <Content weatherInfo={weatherInfo} />}
           <Info />
           <Text className="text-center text-secondaryDark text-sm my-8">
             Demo Weather App - CODE HUB{" "}
