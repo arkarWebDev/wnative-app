@@ -62,6 +62,8 @@ export default function Index() {
       const weather_api = `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&daily=weathercode,temperature_2m_max,sunrise,sunset,windspeed_10m_max&timezone=auto&current_weather=true`;
       const response = await fetch(weather_api);
       const response_data = await response.json();
+      console.log(response_data);
+
       setWeatherInfo(response_data);
     };
 
@@ -92,7 +94,7 @@ export default function Index() {
           <Header cityname={city} />
           <InputBox />
           {weatherInfo && <Content weatherInfo={weatherInfo} />}
-          <Info />
+          {weatherInfo && <Info weatherInfo={weatherInfo} />}
           <Text className="text-center text-secondaryDark text-sm my-8">
             Demo Weather App - CODE HUB{" "}
           </Text>
