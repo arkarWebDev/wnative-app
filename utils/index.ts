@@ -1,3 +1,5 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 export const WEATHER_COLLECTION = [
   {
     codes: [0],
@@ -33,3 +35,5 @@ export const getWeratherInfoByCode = (code: number) => {
 export const getTimeOnly = (date: string) => {
   return date.split("T")[1];
 };
+
+export const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
