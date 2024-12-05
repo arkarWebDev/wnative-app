@@ -26,6 +26,7 @@ export type Weather = {
   current_weather: {
     temperature: number;
     weathercode: 0;
+    windspeed: number;
   };
   daily: {
     sunrise: string[];
@@ -70,6 +71,7 @@ export default function Index() {
     setCurrentWeather({
       temperature: weather.current_weather.temperature,
       weatherCode: weather.current_weather.weathercode,
+      windspeed: weather.current_weather.windspeed,
     });
     setDailyForecast({
       sunrise: weather.daily.sunrise,

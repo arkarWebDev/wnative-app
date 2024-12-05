@@ -3,6 +3,7 @@ import { create } from "zustand";
 type CurrentWeather = {
   weatherCode: number;
   temperature: number;
+  windspeed: number;
 };
 
 type DailyForecast = {
@@ -17,6 +18,7 @@ type WeatherType = {
   current_weather: {
     temperature: number;
     weathercode: number;
+    windspeed: number;
   };
   daily: {
     sunrise: string[];
@@ -33,6 +35,7 @@ export const useWeatherStore = create<WeatherType>((set) => ({
   current_weather: {
     temperature: 0,
     weathercode: 0,
+    windspeed: 0,
   },
   daily: {
     sunrise: [],
@@ -46,6 +49,7 @@ export const useWeatherStore = create<WeatherType>((set) => ({
       current_weather: {
         temperature: weather.temperature,
         weathercode: weather.weatherCode,
+        windspeed: weather.windspeed,
       },
     })),
   setDailyForecast: (forecast) =>
