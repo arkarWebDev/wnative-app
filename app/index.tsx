@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
+  Alert,
   ImageBackground,
   Platform,
   SafeAreaView,
@@ -14,6 +15,7 @@ import Info from "../components/home/info";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { useWeatherStore } from "../store/weather-store";
+import { getLocationByCity, getWeatherInfo } from "../utils/weather-api";
 
 type Location = {
   latitude: number;
@@ -60,38 +62,50 @@ export default function Index() {
         longitude: currentLocation.coords.longitude,
       });
     };
-
-    const getWeatherInfo = async () => {
-      setLoading(true);
-      const weather_api = `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&daily=weathercode,temperature_2m_max,sunrise,sunset,windspeed_10m_max&timezone=auto&current_weather=true`;
-      const response = await fetch(weather_api);
-      const response_data: Weather = await response.json();
-      setCurrentWeather({
-        temperature: response_data.current_weather.temperature,
-        weatherCode: response_data.current_weather.weathercode,
-      });
-      setDailyForecast({
-        sunrise: response_data.daily.sunrise,
-        sunset: response_data.daily.sunset,
-        temperature_2m_max: response_data.daily.temperature_2m_max,
-        time: response_data.daily.time,
-        weathercode: response_data.daily.weathercode,
-      });
-      setLoading(false);
-    };
-
-    const getReverseGeocode = async () => {
-      const reverseGeocodeResponse = await Location.reverseGeocodeAsync({
-        latitude: location.latitude,
-        longitude: location.longitude,
-      });
-      setCity(reverseGeocodeResponse[0].city!);
-    };
-
     getPermission();
-    getWeatherInfo();
-    getReverseGeocode();
   }, []);
+
+  const getWeather = async () => {
+    const weather = await getWeatherInfo(location.latitude, location.longitude);
+    setCurrentWeather({
+      temperature: weather.current_weather.temperature,
+      weatherCode: weather.current_weather.weathercode,
+    });
+    setDailyForecast({
+      sunrise: weather.daily.sunrise,
+      sunset: weather.daily.sunset,
+      temperature_2m_max: weather.daily.temperature_2m_max,
+      time: weather.daily.time,
+      weathercode: weather.daily.weathercode,
+    });
+  };
+
+  const getReverseGeocode = async () => {
+    const reverseGeocodeResponse = await Location.reverseGeocodeAsync({
+      latitude: location.latitude,
+      longitude: location.longitude,
+    });
+
+    setCity(
+      reverseGeocodeResponse[0].city! || reverseGeocodeResponse[0].country!
+    );
+  };
+
+  const searchLocationByCity = async (city: string) => {
+    try {
+      const { latitude, longitude } = await getLocationByCity(city);
+      setLocation({ latitude, longitude });
+    } catch (error) {
+      Alert.alert(error as string, "Please enter a valid city name.");
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    getWeather();
+    getReverseGeocode();
+    setLoading(false);
+  }, [location]);
 
   return (
     <SafeAreaView
@@ -107,7 +121,7 @@ export default function Index() {
           {!loading && (
             <>
               <Header cityname={city} />
-              <InputBox />
+              <InputBox serchLocationByCity={searchLocationByCity} />
               <Content />
               <Info />
               <Text className="text-center text-secondaryDark text-sm my-8">

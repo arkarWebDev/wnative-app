@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useWeatherStore } from "../../store/weather-store";
 import WItem from "./w-item";
 import { DAYS, getWeratherInfoByCode } from "../../utils";
@@ -53,24 +53,26 @@ const WList = () => {
   const dailyForecast = useWeatherStore((state) => state.daily);
 
   return (
-    <View className="flex-1">
-      {dailyForecast.weathercode.map((code, index) => {
-        const temperature = dailyForecast.temperature_2m_max[index];
-        const date = new Date(dailyForecast.time[index]);
-        const dayOfWeek = DAYS[date.getDay()];
-        const condition = getWeratherInfoByCode(code)?.label;
-        const img = getWeratherInfoByCode(code)?.image;
-        return (
-          <WItem
-            key={index}
-            temp={temperature}
-            day={dayOfWeek}
-            weatherCodition={condition!}
-            wImage={img}
-          />
-        );
-      })}
-    </View>
+    <ScrollView>
+      <View className="flex-1">
+        {dailyForecast.weathercode.map((code, index) => {
+          const temperature = dailyForecast.temperature_2m_max[index];
+          const date = new Date(dailyForecast.time[index]);
+          const dayOfWeek = DAYS[date.getDay()];
+          const condition = getWeratherInfoByCode(code)?.label;
+          const img = getWeratherInfoByCode(code)?.image;
+          return (
+            <WItem
+              key={index}
+              temp={temperature}
+              day={dayOfWeek}
+              weatherCodition={condition!}
+              wImage={img}
+            />
+          );
+        })}
+      </View>
+    </ScrollView>
   );
 };
 

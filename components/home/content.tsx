@@ -15,7 +15,7 @@ const Content = () => {
 
   useEffect(() => {
     setWeatherDetail(getWeratherInfoByCode(current_weather.weathercode));
-  }, [weatherDetail]);
+  }, [current_weather.weathercode]);
 
   return (
     <View className="justify-center items-center mb-6">

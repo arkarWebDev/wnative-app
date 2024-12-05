@@ -17,7 +17,7 @@ export const WEATHER_COLLECTION = [
     image: require("../assets/rain.png"),
   },
   {
-    codes: [71, 73, 75, 77],
+    codes: [71, 73, 75, 77, 85],
     label: "Snowy",
     image: require("../assets/snow.png"),
   },
